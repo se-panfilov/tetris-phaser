@@ -1,0 +1,16 @@
+*.log
+test
+node_modules
+.idea
+.tmp
+.DS_Store
+src
+.editorconfig
+.babelrc
+.npmrc
+.nvmrc
+.gitattributes
+.gitignore
+tsconfig.json
+tslint.json
+yarn-error.log
