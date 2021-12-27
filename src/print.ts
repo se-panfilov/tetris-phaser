@@ -1,5 +1,5 @@
 import './style.scss';
 
-export default function printMe() {
-  console.log('I get called from print!');
+export default function print(text: any) {
+  console.log(text);
 }
