@@ -91,17 +91,15 @@ module.exports = {
     runtimeChunk: 'single',
     removeAvailableModules: !isDevMode,
     removeEmptyChunks: !isDevMode,
-    splitChunks: isDevMode
-      ? false
-      : {
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all'
-            }
-          }
-        },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
     minimizer: [
       new CssMinimizerPlugin({
         minimizerOptions: {
