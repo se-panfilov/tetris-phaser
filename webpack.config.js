@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
-const devMode = process.env.NODE_ENV !== 'production';
+const isDevMode = !!process.env.NODE_ENV !== 'production';
 
 const plugins = [
   new HtmlWebpackPlugin({
@@ -14,15 +14,15 @@ const plugins = [
     title: 'Development'
   }),
   new MiniCssExtractPlugin({
-    filename: '[name].[contenthash].css',
-    chunkFilename: '[id].[contenthash].css'
+    filename: isDevMode ? '[name].css' : '[name].[contenthash].css',
+    chunkFilename: isDevMode ? '[id].css' : '[id].[contenthash].css'
   })
 ];
 
-if (devMode) plugins.push(new webpack.HotModuleReplacementPlugin());
+if (isDevMode) plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
-  mode: devMode ? 'development' : 'production',
+  mode: isDevMode ? 'development' : 'production',
   entry: {
     index: './src/index.ts'
   },
@@ -35,7 +35,17 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              // TODO (S.Panfilov) need to use "happyPackMode" alongside with "transpileOnly"
+              happyPackMode: true,
+              // TODO (S.Panfilov) check if "transpileOnly" is a good thing
+              transpileOnly: isDevMode
+            }
+          }
+        ],
         exclude: /node_modules/
       },
       {
@@ -64,28 +74,39 @@ module.exports = {
           parse: json5.parse
         }
       }
+      // {
+      //   test: /\.js$/,
+      //   include: path.resolve(__dirname, 'src'), //for performance
+      //   loader: 'babel-loader',
+      // },
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
+    symlinks: false
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: isDevMode ? '[name].js' : '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true
+    clean: true,
+    pathinfo: true
   },
   optimization: {
     moduleIds: 'deterministic',
     runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    },
+    removeAvailableModules: !isDevMode,
+    removeEmptyChunks: !isDevMode,
+    splitChunks: isDevMode
+      ? false
+      : {
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all'
+            }
+          }
+        },
     minimizer: [
       new CssMinimizerPlugin({
         minimizerOptions: {
@@ -97,7 +118,6 @@ module.exports = {
           ]
         }
       })
-    ],
-    minimize: true
+    ]
   }
 };

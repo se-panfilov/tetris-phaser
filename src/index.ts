@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Print from './print';
+import Print from './soem/print';
 
 function component() {
   const element = document.createElement('div');
