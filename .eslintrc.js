@@ -15,5 +15,18 @@ module.exports = {
     'plugin:functional/recommended',
     'plugin:functional/stylistic'
   ],
-  rules: {}
+  rules: {
+    'functional/functional-parameters': [
+      'error',
+      {
+        allowRestParameter: true,
+        allowArgumentsKeyword: false,
+        enforceParameterCount: {
+          count: 'atLeastOne',
+          ignoreIIFE: true
+        }
+      }
+    ],
+    'functional/no-expression-statement': 'off'
+  }
 };

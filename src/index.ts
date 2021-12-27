@@ -1,19 +1,6 @@
-import Print from './soem/print';
-
-function component() {
-  const element = document.createElement('div');
-
-  // Lodash, now imported by this script
-  element.onclick = Print.bind(null, 'Hello webpack!');
-
-  const asd = {
-    a: 1,
-    b: 2
-  };
-
-  console.log('111', { ...asd });
-
-  return element;
+function component(): Record<string, any> {
+  const arr = { a: 1 };
+  arr.a = 2;
+  console.log(1);
+  return arr;
 }
-
-document.body.appendChild(component());
