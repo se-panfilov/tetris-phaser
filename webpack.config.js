@@ -4,6 +4,8 @@ const yaml = require('yamljs');
 const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 const devMode = process.env.NODE_ENV !== 'production';
 
 const plugins = [
@@ -74,7 +76,26 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: 'all'
-    }
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    minimizer: [
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            'default',
+            {
+              discardComments: { removeAll: true }
+            }
+          ]
+        }
+      })
+    ],
+    minimize: true
   }
 };
