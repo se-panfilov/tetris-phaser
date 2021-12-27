@@ -38,15 +38,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        // test: /\.tsx?$/,
+        test: /\.(js|jsx|tsx|ts)$/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: 'babel-loader',
             options: {
+              // TODO (S.Panfilov) these options works only with ts-loader, not babel-loader
               // TODO (S.Panfilov) need to use "happyPackMode" alongside with "transpileOnly"
-              happyPackMode: isDevMode,
+              // happyPackMode: isDevMode,
               // TODO (S.Panfilov) check if "transpileOnly" is a good thing
-              transpileOnly: isDevMode
+              // transpileOnly: isDevMode
             }
           }
         ],
