@@ -1,10 +1,19 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest'],
+  plugins: ['@typescript-eslint', 'functional', 'jest'],
   parserOptions: {
-    // Only ESLint 6.2.0 and later support ES2020.
-    ecmaVersion: 2020
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json']
   },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier']
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:functional/external-recommended',
+    'plugin:functional/recommended',
+    'plugin:functional/stylistic'
+  ],
+  rules: {}
 };
