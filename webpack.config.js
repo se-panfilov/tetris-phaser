@@ -5,6 +5,7 @@ const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isDevMode = !!process.env.NODE_ENV !== 'production';
 
@@ -16,7 +17,8 @@ const plugins = [
   new MiniCssExtractPlugin({
     filename: isDevMode ? '[name].css' : '[name].[contenthash].css',
     chunkFilename: isDevMode ? '[id].css' : '[id].[contenthash].css'
-  })
+  }),
+  new ForkTsCheckerWebpackPlugin()
 ];
 
 if (isDevMode) plugins.push(new webpack.HotModuleReplacementPlugin());
@@ -40,7 +42,7 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               // TODO (S.Panfilov) need to use "happyPackMode" alongside with "transpileOnly"
-              happyPackMode: true,
+              happyPackMode: isDevMode,
               // TODO (S.Panfilov) check if "transpileOnly" is a good thing
               transpileOnly: isDevMode
             }
