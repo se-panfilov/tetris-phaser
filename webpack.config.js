@@ -4,13 +4,15 @@ const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: './src/index.ts',
     print: './src/print.ts'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Output Management'
+      // title: 'Output Management'
+      title: 'Development'
     })
   ],
   devtool: 'inline-source-map',
