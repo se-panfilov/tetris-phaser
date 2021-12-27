@@ -2,18 +2,19 @@ const path = require('path');
 const yaml = require('yamljs');
 const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
   entry: {
-    index: './src/index.ts',
-    print: './src/print.ts'
+    index: './src/index.ts'
   },
   plugins: [
     new HtmlWebpackPlugin({
       // title: 'Output Management'
       title: 'Development'
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
   devtool: 'inline-source-map',
   devServer: {
@@ -28,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
