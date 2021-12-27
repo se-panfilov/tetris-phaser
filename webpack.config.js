@@ -1,21 +1,30 @@
+const webpack = require('webpack');
 const path = require('path');
 const yaml = require('yamljs');
 const json5 = require('json5');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    // title: 'Output Management'
+    title: 'Development'
+  }),
+  new MiniCssExtractPlugin({
+    filename: devMode ? '[name].css' : '[name].[contenthash].css',
+    chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
+  })
+];
+
+if (devMode) plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = {
-  mode: 'development',
+  mode: devMode ? 'development' : 'production',
   entry: {
     index: './src/index.ts'
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      // title: 'Output Management'
-      title: 'Development'
-    }),
-    new MiniCssExtractPlugin()
-  ],
+  plugins,
   devtool: 'inline-source-map',
   devServer: {
     static: './dist'
@@ -28,8 +37,8 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        test: /\.(sa|sc|c)ss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
