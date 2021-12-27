@@ -1,3 +1,5 @@
+'use strict';
+
 const webpack = require('webpack');
 const path = require('path');
 const yaml = require('yamljs');
@@ -7,7 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const isDevMode = !!process.env.NODE_ENV !== 'production';
+const isDevMode = process.argv[process.argv.indexOf('--mode') + 1] !== 'production';
 
 const plugins = [
   new HtmlWebpackPlugin({
