@@ -12,8 +12,8 @@ const plugins = [
     title: 'Development'
   }),
   new MiniCssExtractPlugin({
-    filename: devMode ? '[name].css' : '[name].[contenthash].css',
-    chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
+    filename: '[name].[contenthash].css',
+    chunkFilename: '[id].[contenthash].css'
   })
 ];
 
