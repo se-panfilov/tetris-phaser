@@ -8,13 +8,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const isDevMode = process.argv[process.argv.indexOf('--mode') + 1] !== 'production';
 
 const plugins = [
   new HtmlWebpackPlugin({
-    // title: 'Output Management'
-    title: 'Development'
+    title: 'Tetris'
   }),
   new MiniCssExtractPlugin({
     filename: isDevMode ? '[name].css' : '[name].[contenthash].css',
@@ -38,18 +38,10 @@ module.exports = {
   module: {
     rules: [
       {
-        // test: /\.tsx?$/,
         test: /\.(js|jsx|tsx|ts)$/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              // TODO (S.Panfilov) these options works only with ts-loader, not babel-loader
-              // TODO (S.Panfilov) need to use "happyPackMode" alongside with "transpileOnly"
-              // happyPackMode: isDevMode,
-              // TODO (S.Panfilov) check if "transpileOnly" is a good thing
-              // transpileOnly: isDevMode
-            }
+            loader: 'babel-loader'
           }
         ],
         include: path.resolve(__dirname, 'src'),
@@ -81,16 +73,12 @@ module.exports = {
           parse: json5.parse
         }
       }
-      // {
-      //   test: /\.js$/,
-      //   include: path.resolve(__dirname, 'src'), //for performance
-      //   loader: 'babel-loader',
-      // },
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-    symlinks: false
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    symlinks: false,
+    plugins: [new TsconfigPathsPlugin()]
   },
   output: {
     filename: isDevMode ? '[name].js' : '[name].[contenthash].js',
