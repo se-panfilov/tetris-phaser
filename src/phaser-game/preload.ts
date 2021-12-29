@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { BOMB, DUDE, PLATFORM, SKY, STAR } from '@/constants';
+import { BOMB, DUDE, PLATFORM, SKY, STAR } from '@/phaser-game/constants';
 
 export function preload(this: Scene) {
   this.load.image(SKY.id, SKY.img);

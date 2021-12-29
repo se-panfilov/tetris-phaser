@@ -16,11 +16,11 @@ import {
   setPlayer,
   setScoreText,
   setStars
-} from '@/entities';
-import { PLATFORM, SKY } from '@/constants';
-import { createPlayerAnimations } from '@/PlayerControls';
-import { collectStar } from '@/events/collectStar';
-import { hitBomb } from '@/events/hitBomb';
+} from '@/phaser-game/entities';
+import { PLATFORM, SKY } from '@/phaser-game/constants';
+import { createPlayerAnimations } from '@/phaser-game/PlayerControls';
+import { collectStar } from '@/phaser-game/events/collectStar';
+import { hitBomb } from '@/phaser-game/events/hitBomb';
 
 export function create(this: Scene) {
   this.add.image(400, 300, SKY.id);

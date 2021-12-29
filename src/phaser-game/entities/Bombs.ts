@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { BOMB } from '@/constants';
+import { BOMB } from '@/phaser-game/constants';
 import Group = Phaser.GameObjects.Group;
 
 let bombs: Group;

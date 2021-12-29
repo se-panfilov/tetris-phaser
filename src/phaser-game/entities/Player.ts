@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { DUDE } from '@/constants';
+import { DUDE } from '@/phaser-game/constants';
 import SpriteWithDynamicBody = Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
 
 let player: SpriteWithDynamicBody;

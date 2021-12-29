@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { createBomb, getScore, getStars, updateScores } from '@/entities';
+import { createBomb, getScore, getStars, updateScores } from '@/phaser-game/entities';
 
 export function collectStar(player: any, star: any) {
   star.disableBody(true, true);

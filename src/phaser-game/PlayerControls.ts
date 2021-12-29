@@ -1,4 +1,4 @@
-import { DUDE } from '@/constants';
+import { DUDE } from '@/phaser-game/constants';
 import { Scene } from 'phaser';
 
 enum Controls {

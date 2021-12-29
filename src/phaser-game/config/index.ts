@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-import { preload } from '@/preload';
-import { create } from '@/create';
-import { update } from '@/update';
+import { preload } from '@/phaser-game/preload';
+import { create } from '@/phaser-game/create';
+import { update } from '@/phaser-game/update';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
 const width: number = 800;

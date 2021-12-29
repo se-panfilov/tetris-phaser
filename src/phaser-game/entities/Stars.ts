@@ -1,4 +1,4 @@
-import { STAR } from '@/constants';
+import { STAR } from '@/phaser-game/constants';
 import { Scene } from 'phaser';
 import Group = Phaser.GameObjects.Group;
 

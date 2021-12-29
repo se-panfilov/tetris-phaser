@@ -1,8 +1,8 @@
-import sky from '@/assets/sky.png';
-import platform from '@/assets/platform.png';
-import star from '@/assets/star.png';
-import bomb from '@/assets/bomb.png';
-import dude from '@/assets/dude.png';
+import sky from '@/phaser-game/assets/sky.png';
+import platform from '@/phaser-game/assets/platform.png';
+import star from '@/phaser-game/assets/star.png';
+import bomb from '@/phaser-game/assets/bomb.png';
+import dude from '@/phaser-game/assets/dude.png';
 
 export const SKY: Sprite = { id: 'sky', img: sky };
 export const PLATFORM: Sprite = { id: 'ground', img: platform };

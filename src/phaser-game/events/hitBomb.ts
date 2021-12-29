@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { setGameOver } from '@/entities/GameState';
+import { setGameOver } from '@/phaser-game/entities/GameState';
 
 export function hitBomb(this: Scene, player: any, bomb: any) {
   console.log(bomb);
