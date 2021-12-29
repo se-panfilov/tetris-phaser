@@ -27,6 +27,7 @@ module.exports = {
         }
       }
     ],
-    'functional/no-expression-statement': 'off'
+    'functional/no-expression-statement': 'off',
+    'explicit-function-return-type': 'error'
   }
 };
