@@ -1,7 +1,8 @@
 import { Scene } from 'phaser';
+import Text = Phaser.GameObjects.Text;
 
 let score: number = 0;
-let scoreText: any;
+let scoreText: Text;
 
 export function getScoreText() {
   return 'Score: ' + score;
@@ -15,7 +16,7 @@ export function setScore(value: number) {
   score = value;
 }
 
-export function setScoreText(value: any) {
+export function setScoreText(value: Text) {
   scoreText = value;
 }
 
@@ -29,9 +30,8 @@ export function initScoreText(
   text: string,
   fontSize: number = TEXT_PARAMS.fontSize,
   color: string = TEXT_PARAMS.color
-) {
-  console.log(111, text);
-  return scene.add.text(16, 16, text, { fontSize: `${fontSize}px`, fill: color } as any);
+): Text {
+  return scene.add.text(16, 16, text, { fontSize: `${fontSize}px`, color });
 }
 
 export function updateScores(value: number) {

@@ -1,4 +1,4 @@
-let gameOver = false;
+let gameOver: boolean = false;
 
 export function isGameOver(): boolean {
   return Boolean(gameOver);

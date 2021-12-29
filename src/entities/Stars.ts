@@ -1,17 +1,18 @@
 import { STAR } from '@/constants';
 import { Scene } from 'phaser';
+import Group = Phaser.GameObjects.Group;
 
-let stars: any;
+let stars: Group;
 
-export function getStars() {
+export function getStars(): Group {
   return stars;
 }
 
-export function setStars(value: any) {
+export function setStars(value: Group) {
   stars = value;
 }
 
-export function initStars(scene: Scene) {
+export function initStars(scene: Scene): Group {
   return scene.physics.add.group({
     key: STAR.id,
     repeat: 11,

@@ -1,21 +1,22 @@
 import { Scene } from 'phaser';
 import { BOMB } from '@/constants';
+import Group = Phaser.GameObjects.Group;
 
-let bombs: any;
+let bombs: Group;
 
 export function getBombs() {
   return bombs;
 }
 
-export function setBombs(value: any) {
+export function setBombs(value: Group) {
   bombs = value;
 }
 
-export function initBombs(scene: Scene) {
+export function initBombs(scene: Scene): Group {
   return scene.physics.add.group();
 }
 
-export function createBomb(position: any) {
+export function createBomb(position: number): void {
   const bomb = bombs.create(position, 16, BOMB.id);
   bomb.setBounce(1);
   bomb.setCollideWorldBounds(true);

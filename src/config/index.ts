@@ -1,18 +1,24 @@
 import Phaser from 'phaser';
-// import GameConfig = Phaser.Types.Core.GameConfig;
 import { preload } from '@/preload';
 import { create } from '@/create';
 import { update } from '@/update';
+import GameConfig = Phaser.Types.Core.GameConfig;
 
-export const config: any = {
+const width: number = 800;
+const height: number = 600;
+const physics: string = 'arcade';
+const gravityY: number = 300;
+const isDebug: boolean = false;
+
+export const config: GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width,
+  height,
   physics: {
-    default: 'arcade',
+    default: physics,
     arcade: {
-      gravity: { y: 300 },
-      debug: false
+      gravity: { y: gravityY },
+      debug: isDebug
     }
   },
   scene: {
