@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "serve": "webpack serve --open",
+    "serve": "webpack serve",
     "build": "webpack",
     "build:production": "webpack --mode production",
     "build:watch": "webpack --watch",
@@ -14,8 +14,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/lodash": "4.14.178",
-    "http-server": "14.0.0",
-    "phaser": "3.55.2"
+    "excalibur": "0.25.1",
+    "http-server": "14.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.16.5",
