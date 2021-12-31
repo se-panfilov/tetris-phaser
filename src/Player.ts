@@ -11,12 +11,12 @@ class Player extends Actor {
 }
 
 export const player: Player = new Player({
-  x: 20,
-  y: 20,
+  x: 200,
+  y: 50,
   width: 50,
   height: 50,
   color: Color.Chartreuse
 });
 // player.graphics.use(image.toSprite());
 
-player.body.collisionType = CollisionType.Fixed;
+player.body.collisionType = CollisionType.Active;

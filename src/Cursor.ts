@@ -8,4 +8,4 @@ export const cursor = new Actor({
   color: Color.Red
 });
 
-cursor.body.collisionType = CollisionType.Passive;
+cursor.body.collisionType = CollisionType.Active;
