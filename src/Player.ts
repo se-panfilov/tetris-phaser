@@ -4,9 +4,12 @@ import playerSprite from '@/assets/player.png';
 const image = new ImageSource(playerSprite);
 
 class Player extends Actor {
+  public game: Engine | undefined;
+
   public override onInitialize(engine: Engine) {
     // TODO (S.Panfilov) Sprite doesn't work for a some reason
     // this.graphics.use(image.toSprite());
+    this.game = engine;
   }
 
   public override update(engine: Engine, delta: number): void {
@@ -14,6 +17,10 @@ class Player extends Actor {
     if (engine.input.keyboard.isHeld(Input.Keys.A)) this.pos.x = this.pos.x - 2;
     if (engine.input.keyboard.isHeld(Input.Keys.S)) this.pos.y = this.pos.y + 2;
     if (engine.input.keyboard.isHeld(Input.Keys.D)) this.pos.x = this.pos.x + 2;
+  }
+
+  public shoot(): void {
+    console.log(this.game?.input.pointers.primary.lastWorldPos);
   }
 }
 
