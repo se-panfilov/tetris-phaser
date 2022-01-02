@@ -1,6 +1,7 @@
 import { Actor, CollisionType, Color } from 'excalibur';
 
 export const cursor = new Actor({
+  name: 'Cursor',
   x: 20,
   y: 20,
   width: 50,
