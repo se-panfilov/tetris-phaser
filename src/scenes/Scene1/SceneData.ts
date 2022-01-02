@@ -1,4 +1,4 @@
-import { cursor } from '@/entities/cursor';
+import { cursor } from '@/entities/Cursor';
 import { player } from '@/Player';
 import { Actor } from 'excalibur';
 
