@@ -1,25 +1,28 @@
-import { Engine } from 'excalibur';
-import { config } from '@/Config';
-import { wrappedScene1 } from '@/scenes';
-import { addSceneToGame, goToScene } from '@/services';
-import { getGround } from '@/Ground';
-import { player } from '@/Player';
+import { Application } from 'pixi.js';
+import { Player } from '@/entities';
 
-// Physics.useRealisticPhysics();
-// Physics.acc = vec(0, 300);
+const appConfig = {
+  width: 800,
+  height: 500,
+  antialias: true,
+  transparent: false,
+  resolution: 1
+};
 
-const game = new Engine(config);
+const app = new Application(appConfig);
 
-addSceneToGame(game, wrappedScene1);
+document.body.appendChild(app.view);
 
-const ground = getGround(game);
+// store.dispatch[REGISTER_APP];
 
-game.start().then(() => {
-  game.currentScene.add(ground);
-});
+// Player().then((player: IPlayer) => {
+//   player.setPosition({ x: 96, y: 96 });
+// })
 
-game.input.pointers.primary.on('down', (evt) => {
-  player.shoot();
-});
+const player = await Player();
 
-goToScene(game, wrappedScene1);
+app.ticker.add((delta) => update(delta));
+
+function update(delta: number) {
+  player.move(delta);
+}

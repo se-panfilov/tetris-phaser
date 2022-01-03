@@ -14,8 +14,9 @@
   "license": "MIT",
   "dependencies": {
     "@types/lodash": "4.14.178",
-    "excalibur": "0.25.1",
-    "http-server": "14.0.0"
+    "http-server": "14.0.0",
+    "pixi.js": "6.2.1",
+    "rxjs": "7.5.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.16.5",
