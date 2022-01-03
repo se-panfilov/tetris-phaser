@@ -1,1 +1,1 @@
-export * from './lib/ActorSetvice';
+export * from './lib/ActorService';

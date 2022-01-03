@@ -1,5 +1,6 @@
 import { Application } from 'pixi.js';
 import { Player } from '@/entities';
+import { IPlayer } from '@/entities/lib/Player/models/IPlayer';
 
 const appConfig = {
   width: 800,
@@ -19,10 +20,10 @@ document.body.appendChild(app.view);
 //   player.setPosition({ x: 96, y: 96 });
 // })
 
-const player = await Player();
+const playerPromise: Promise<IPlayer> = Player();
 
 app.ticker.add((delta) => update(delta));
 
 function update(delta: number) {
-  player.move(delta);
+  playerPromise.then(({ move }) => move(delta));
 }
