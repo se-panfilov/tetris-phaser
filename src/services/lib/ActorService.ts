@@ -1,7 +1,9 @@
-import { Application, Loader, Sprite } from 'pixi.js';
+import { Application, Sprite } from 'pixi.js';
 import { getApplication } from '@/App';
+import { SpriteOptions, SpriteSize } from '@/models';
+import { loadSprite, setSpriteAnchor, setSpriteSize } from '@/services';
 
-const DefaultOptions: Options = {
+const DefaultOptions: SpriteOptions = {
   anchor: {
     x: 0.5,
     y: 0.5
@@ -11,43 +13,18 @@ const DefaultOptions: Options = {
 export function LoadActorSprite(
   actorId: string,
   spriteURL: string,
-  size: Size,
-  options: Options = DefaultOptions
+  size: SpriteSize,
+  options: SpriteOptions = DefaultOptions
 ): Promise<Sprite> {
   const app: Application = getApplication();
 
   return new Promise<Sprite>((resolve) => {
-    Loader.shared.add(spriteURL).load(() => {
-      if (!app) throw new Error(`Failed to add an actor sprite ("${spriteURL}"). Application is not defined.`);
-      // TODO (S.Panfilov) forced "!"
-      const sprite = new Sprite(Loader.shared.resources[spriteURL]!.texture);
-
-      if (size) {
-        sprite.width = size.width;
-        sprite.height = size.height;
-      }
-
-      if (options.anchor) {
-        sprite.anchor.x = options.anchor.x;
-        sprite.anchor.y = options.anchor.y;
-      }
-
+    return loadSprite(spriteURL).then((sprite: Sprite) => {
+      if (size) setSpriteSize(sprite, size);
+      if (options.anchor) setSpriteAnchor(sprite, options.anchor.x, options.anchor.y);
       app.stage.addChild(sprite);
-      // TODO (S.Panfilov) store!
-      // store.dispatch(REGISTER_SPRITE, { actorId, sprite });
+      // store.dispatch(LOADED_ACTOR_SPRITE, { actorId, spriteURL });
       resolve(sprite);
     });
   });
-}
-
-interface Size {
-  readonly width: number;
-  readonly height: number;
-}
-
-interface Options {
-  readonly anchor?: {
-    readonly x: number;
-    readonly y: number;
-  };
 }
