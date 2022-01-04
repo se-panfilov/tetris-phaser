@@ -1,6 +1,7 @@
-import { Loader, Sprite } from 'pixi.js';
+import { Application, Loader, Sprite } from 'pixi.js';
 import { isNotDefined } from '@/utils';
 import { SpriteSize } from '@/models';
+import { getApplication } from '@/App';
 
 export function loadSprite(spriteURL: string): Promise<Sprite> {
   return new Promise((resolve, reject) => {
@@ -21,4 +22,8 @@ export function setSpriteSize(sprite: Sprite, { width, height }: SpriteSize): vo
 export function setSpriteAnchor(sprite: Sprite, x: number, y: number): void {
   sprite.anchor.x = x;
   sprite.anchor.y = y;
+}
+
+export function addSpriteToStage(sprite: Sprite): Promise<Sprite> {
+  return getApplication().then((app: Application) => app.stage.addChild(sprite));
 }
