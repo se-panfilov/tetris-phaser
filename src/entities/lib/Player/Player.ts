@@ -1,4 +1,4 @@
-import { ActorConfig } from '@/Models';
+import { ActorConfig } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
 import { LoadActorSprite } from '@/services/lib/ActorService';
 import { ActorPosition } from '@/entities/lib/Player/models/ActorPosition';

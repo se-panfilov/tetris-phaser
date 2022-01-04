@@ -1,4 +1,4 @@
-import { ActorConfig } from '@/Models';
+import { ActorConfig } from '@/models';
 import playerURL from '@/assets/player.png';
 
 export const playerConfig: ActorConfig = {
