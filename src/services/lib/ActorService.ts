@@ -1,20 +1,12 @@
-import { Sprite } from 'pixi.js';
+import { Application, Loader, Sprite } from 'pixi.js';
+import { getApplication } from '@/App';
 
-const DefaultOptions = {
+const DefaultOptions: Options = {
   anchor: {
-    height: 0.5,
-    width: 0.5
+    x: 0.5,
+    y: 0.5
   }
 };
-
-// store.dispatch({ type: incremented });
-// // {value: 1}
-// store.dispatch(increment());
-// store.dispatch(increment());
-// store.dispatch(decrement());
-// store.dispatch(increment());
-// {value: 2}
-// store.dispatch({ type: 'counter/decremented' });
 
 export function LoadActorSprite(
   actorId: string,
@@ -22,23 +14,30 @@ export function LoadActorSprite(
   size: Size,
   options: Options = DefaultOptions
 ): Promise<Sprite> {
-  // TODO (S.Panfilov) store!
-  // const app: Application = store.getter[GET_APP];
-  const app: any = {};
+  const app: Application = getApplication();
 
-  return Promise.resolve({} as any);
+  return new Promise<Sprite>((resolve) => {
+    Loader.shared.add(spriteURL).load(() => {
+      if (!app) throw new Error(`Failed to add an actor sprite ("${spriteURL}"). Application is not defined.`);
+      // TODO (S.Panfilov) forced "!"
+      const sprite = new Sprite(Loader.shared.resources[spriteURL]!.texture);
 
-  // return new Promise<Sprite>((resolve) => {
-  //   Loader.shared.add(spriteURL).load(() => {
-  //     if (!app) throw new Error(`Failed to add an actor sprite ("${spriteURL}"). Application is not defined.`);
-  //     // TODO (S.Panfilov) forced "!"
-  //     const sprite = new Sprite(Loader.shared.resources[spriteURL]!.texture);
-  //     app.stage.addChild(sprite);
-  //     // TODO (S.Panfilov) store!
-  //     // store.dispatch(REGISTER_SPRITE, { actorId, sprite });
-  //     resolve(sprite);
-  //   });
-  // });
+      if (size) {
+        sprite.width = size.width;
+        sprite.height = size.height;
+      }
+
+      if (options.anchor) {
+        sprite.anchor.x = options.anchor.x;
+        sprite.anchor.y = options.anchor.y;
+      }
+
+      app.stage.addChild(sprite);
+      // TODO (S.Panfilov) store!
+      // store.dispatch(REGISTER_SPRITE, { actorId, sprite });
+      resolve(sprite);
+    });
+  });
 }
 
 interface Size {
@@ -48,7 +47,7 @@ interface Size {
 
 interface Options {
   readonly anchor?: {
-    readonly width: number;
-    readonly height: number;
+    readonly x: number;
+    readonly y: number;
   };
 }

@@ -6,10 +6,5 @@ import { setApp } from '@/store/App/Reducers';
 export const appSlice: any = createSlice({
   name: 'app',
   initialState,
-  reducers: {
-    setApp
-    // setApp(state: any, { payload }: PayloadAction<Application>): void {
-    //   state.value = payload;
-    // }
-  }
+  reducers: { setApp }
 });
