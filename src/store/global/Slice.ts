@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { initialState } from '@/store/App/State';
-import { setApp } from '@/store/App/Reducers';
+import { initialState } from './State';
+import { setApp } from './Reducers';
 
 // TODO (S.Panfilov) any
 export const appSlice: any = createSlice({
-  name: 'app',
+  name: 'global',
   initialState,
   reducers: { setApp }
 });

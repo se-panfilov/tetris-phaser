@@ -1,9 +1,9 @@
 import { Application } from 'pixi.js';
 
 export interface CounterState {
-  value: Application | undefined;
+  app: Application | undefined;
 }
 
 export const initialState: CounterState = {
-  value: undefined
+  app: undefined
 };

@@ -1,4 +1,4 @@
-import { appSlice } from '@/store/App/Slice';
+import { appSlice } from './Slice';
 
 export const { setApp } = appSlice.actions;
 export { appSlice } from './Slice';
