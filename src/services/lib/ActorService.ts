@@ -1,6 +1,6 @@
 import { Sprite } from 'pixi.js';
-import { SpriteOptions, SpriteSize } from '@/models';
-import { addSpriteToStage, loadSprite, setSpriteAnchor, setSpriteSize } from '@/services';
+import { Actor, SpriteOptions, SpriteSize } from '@/models';
+import { addSpriteToStage, loadSprite, setSpriteAnchor, setSpriteSize, unloadSprite } from '@/services';
 
 const DefaultOptions: SpriteOptions = {
   anchor: {
@@ -21,5 +21,15 @@ export function LoadActorSprite(
       if (options.anchor) setSpriteAnchor(sprite, options.anchor.x, options.anchor.y);
       return addSpriteToStage(sprite).then((sprite) => resolve(sprite));
     });
+  });
+}
+
+export function destroyActor(actor: Actor) {
+  actor.getPosition().unsubscribe();
+  unloadSprite(actor.getSprite());
+
+  Object.keys(actor).forEach((k: string) => {
+    (actor as any)[k] = undefined;
+    delete (actor as any)[k];
   });
 }
