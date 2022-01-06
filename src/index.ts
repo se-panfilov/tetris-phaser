@@ -15,7 +15,6 @@ utils.skipHello();
 
 const app = new Application(appConfig);
 setApplication(app);
-// store.dispatch(setApp(app));
 
 document.body.appendChild(app.view);
 
