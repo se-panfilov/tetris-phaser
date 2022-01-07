@@ -1,57 +1,28 @@
-import { filter, Subject } from 'rxjs';
-import { Keys } from '@/input/lib/Keyboard/Keys';
+import { Subject } from 'rxjs';
+import { INPUT_EVENT, KeyState } from '@/input/lib/model';
 
-// Key(Keys.W).subscribe(() => {
-//   player.move()
-// })
+let keyboard$: Subject<KeyState>;
 
-// let Keyboard = new Subject<any>();
-//
-// Key(Keys.W)
-//   .onDown(() => ...)
-//   .onUp(() => ...)
-//   .whileHeld(() => ...)
-
-export interface IKey {
-  readonly value: Subject<any>;
-  readonly isDown: boolean;
-  readonly isUp: boolean;
-  readonly press: Subject<any>;
-  readonly release: Subject<any>;
+export function getKeyboard(): Subject<KeyState> {
+  return keyboard$;
 }
 
-// TODO (S.Panfilov) any
-// export function Key(value: any): IKey {
-//   return {
-//     value: value,
-//     isDown: false,
-//     isUp: true,
-//     press: undefined,
-//     release: undefined
-//   };
-// };
-//
-// key.downHandler = (event) => {
-//   if (event.key === key.value) {
-//     if (key.isUp && key.press) {
-//       key.press();
-//     }
-//     key.isDown = true;
-//     key.isUp = false;
-//     event.preventDefault();
-//   }
-// };
+export function initKeyboard(): void {
+  keyboard$ = new Subject<KeyState>();
+  // TODO (S.Panfilov) what options is false?
+  window.addEventListener(INPUT_EVENT.KEYDOWN, (evt: KeyboardEvent) => keyListener(evt, true), false);
+  window.addEventListener(INPUT_EVENT.KEYUP, (evt: KeyboardEvent) => keyListener(evt, false), false);
+}
 
-// function Keyboard(value) {
-//
-//   window.addEventListener('keydown', downListener, false);
-//   window.addEventListener('keyup', upListener, false);
-//
-//   // Detach event listeners
-//   key.unsubscribe = () => {
-//     window.removeEventListener('keydown', downListener);
-//     window.removeEventListener('keyup', upListener);
-//   };
-//
-//   return key;
-// }
+export function stopKeyboardSubscription(): void {
+  window.removeEventListener(INPUT_EVENT.KEYDOWN, () => keyboard$.unsubscribe());
+  window.removeEventListener(INPUT_EVENT.KEYUP, () => keyboard$.unsubscribe());
+  keyboard$.complete();
+}
+
+function keyListener(event: KeyboardEvent, isDown: boolean): void {
+  // TODO (S.Panfilov) any
+  keyboard$.next({ isDown, code: event.code as any });
+  // TODO (S.Panfilov) do I need "preventDefault"?
+  // event.preventDefault();
+}
