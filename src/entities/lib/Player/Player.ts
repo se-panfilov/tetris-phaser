@@ -12,9 +12,7 @@ export async function Player({ width, height, spriteURL }: ActorConfig = playerC
 
   position$.subscribe((value: ActorPosition) => _setSpritePosition(value));
 
-  function getPosition(): BehaviorSubject<ActorPosition> {
-    return position$;
-  }
+  const getPosition = (): BehaviorSubject<ActorPosition> => position$;
 
   const setPosition = (position: ActorPosition): void => position$.next(position);
 
@@ -35,13 +33,9 @@ export async function Player({ width, height, spriteURL }: ActorConfig = playerC
     setPosition({ x, y: y + getDelta() + MOVE_STEP });
   }
 
-  function getSprite(): Sprite {
-    return sprite;
-  }
+  const getSprite = (): Sprite => sprite;
 
-  function destroy(this: any): void {
-    destroyActor(this);
-  }
+  const destroy = (player: Actor): void => destroyActor(player);
 
   return Promise.resolve({ moveUp, moveDown, setPosition, getPosition, getSprite, destroy });
 }

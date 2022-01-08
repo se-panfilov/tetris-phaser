@@ -4,6 +4,4 @@ export function setDelta(delta: number): void {
   _delta = delta;
 }
 
-export function getDelta(): number {
-  return _delta;
-}
+export const getDelta = (): number => _delta;

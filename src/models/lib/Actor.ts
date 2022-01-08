@@ -7,5 +7,5 @@ export interface Actor {
   readonly getPosition: () => BehaviorSubject<ActorPosition>;
   readonly getSprite: () => Sprite;
   // readonly move: (delta: number) => void;
-  readonly destroy: () => void;
+  readonly destroy: (actor: Actor) => void;
 }

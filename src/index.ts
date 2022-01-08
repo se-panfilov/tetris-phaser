@@ -42,6 +42,7 @@ Key$(KEY_W)
 Key$(KEY_S)
   .pipe(distinctKeyEvents, isKeyDown)
   .subscribe((v) => {
+    console.log(v);
     playerPromise.then((p) => (<any>p).moveDown());
   });
 

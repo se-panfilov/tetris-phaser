@@ -24,7 +24,8 @@ export function LoadActorSprite(
   });
 }
 
-export function destroyActor(actor: Actor) {
+// TODO (S.Panfilov) not sure this work
+export function destroyActor(actor: Actor): void {
   actor.getPosition().complete();
   unloadSprite(actor.getSprite());
 
