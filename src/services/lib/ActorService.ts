@@ -25,7 +25,7 @@ export function LoadActorSprite(
 }
 
 export function destroyActor(actor: Actor) {
-  actor.getPosition().unsubscribe();
+  actor.getPosition().complete();
   unloadSprite(actor.getSprite());
 
   Object.keys(actor).forEach((k: string) => {

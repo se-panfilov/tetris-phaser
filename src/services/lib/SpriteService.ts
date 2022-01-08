@@ -1,7 +1,7 @@
-import { Application, Loader, Sprite, utils } from 'pixi.js';
+import { Application, Loader, Sprite } from 'pixi.js';
 import { isNotDefined } from '@/utils';
 import { SpriteSize } from '@/models';
-import { getApplication } from '@/App';
+import { getApplication } from '@/globals';
 
 export function loadSprite(spriteURL: string): Promise<Sprite> {
   return new Promise((resolve, reject) => {

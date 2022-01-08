@@ -3,13 +3,14 @@ import { playerConfig } from '@/entities/lib/Player/Config';
 import { destroyActor, LoadActorSprite } from '@/services/lib/ActorService';
 import { Sprite } from 'pixi.js';
 import { BehaviorSubject } from 'rxjs';
+import { getDelta } from '@/globals';
 
 export async function Player({ width, height, spriteURL }: ActorConfig = playerConfig): Promise<Actor> {
   const id: string = 'Player';
   const sprite: Sprite = await LoadActorSprite(id, spriteURL, { height, width });
   const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
 
-  position$.subscribe((value) => _setSpritePosition(value));
+  position$.subscribe((value: ActorPosition) => _setSpritePosition(value));
 
   function getPosition(): BehaviorSubject<ActorPosition> {
     return position$;
@@ -22,9 +23,16 @@ export async function Player({ width, height, spriteURL }: ActorConfig = playerC
     sprite.y = y;
   }
 
-  function move(delta: number): void {
-    console.log('move');
-    sprite.x = sprite.x + 1 + delta;
+  const MOVE_STEP: number = 1;
+
+  function moveUp(): void {
+    const { x, y } = position$.value;
+    setPosition({ x, y: y - getDelta() - MOVE_STEP });
+  }
+
+  function moveDown(): void {
+    const { x, y } = position$.value;
+    setPosition({ x, y: y + getDelta() + MOVE_STEP });
   }
 
   function getSprite(): Sprite {
@@ -35,5 +43,5 @@ export async function Player({ width, height, spriteURL }: ActorConfig = playerC
     destroyActor(this);
   }
 
-  return Promise.resolve({ move, setPosition, getPosition, getSprite, destroy });
+  return Promise.resolve({ moveUp, moveDown, setPosition, getPosition, getSprite, destroy });
 }
