@@ -1,41 +1,45 @@
-import { Actor, ActorConfig, ActorPosition } from '@/models';
+import { Actor, ActorConfig, ActorInputConfigResult } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
-import { destroyActor, LoadActorSprite } from '@/services/lib/ActorService';
-import { Sprite } from 'pixi.js';
-import { BehaviorSubject } from 'rxjs';
-import { getDelta } from '@/globals';
+import { AbstractActor, IAbstractActor } from '@/entities/lib/Actor/AbstractActor';
+import { ActorSpriteMixin, IActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
+import { ActorPositionMixin, IActorPositionMixin } from '@/entities/lib/Actor/ActorPositionMixin';
 
-export async function Player({ width, height, spriteURL }: ActorConfig = playerConfig): Promise<Actor> {
+export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
-  const sprite: Sprite = await LoadActorSprite(id, spriteURL, { height, width });
-  const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
 
-  position$.subscribe((value: ActorPosition) => _setSpritePosition(value));
+  const actor: IAbstractActor = AbstractActor(id);
+  const actorSpriteMixin: IActorSpriteMixin = ActorSpriteMixin(actor, config);
+  const actorPositionMixin: IActorPositionMixin = ActorPositionMixin();
 
-  const getPosition = (): BehaviorSubject<ActorPosition> => position$;
+  const actorParts = {
+    ...actor,
+    ...actorSpriteMixin,
+    ...actorPositionMixin
+  };
 
-  const setPosition = (position: ActorPosition): void => position$.next(position);
+  // const MOVE_STEP: number = 1;
+  //
+  // function moveUp(): void {
+  //   const { x, y } = position$.value;
+  //   setPosition({ x, y: y - getDelta() - MOVE_STEP });
+  // }
 
-  function _setSpritePosition({ x, y }: ActorPosition): void {
-    sprite.x = x;
-    sprite.y = y;
+  actorPositionMixin.position$.subscribe((value) => actorSpriteMixin.update(value));
+
+  function update(delta: number): void {
+    actorPositionMixin.position$.next(positionWithDelta);
+    // actorSpriteMixin.update();
   }
 
-  const MOVE_STEP: number = 1;
-
-  function moveUp(): void {
-    const { x, y } = position$.value;
-    setPosition({ x, y: y - getDelta() - MOVE_STEP });
+  function destroy(): void {
+    actor.destroy();
+    actorSpriteMixin.destroy();
+    actorPositionMixin.destroy();
   }
 
-  function moveDown(): void {
-    const { x, y } = position$.value;
-    setPosition({ x, y: y + getDelta() + MOVE_STEP });
-  }
+  const res = { ...actorParts, update, destroy };
 
-  const getSprite = (): Sprite => sprite;
+  const inputs$: ReadonlyArray<ActorInputConfigResult> = config.inputConfig.map((input) => input(res));
 
-  const destroy = (player: Actor): void => destroyActor(player);
-
-  return Promise.resolve({ moveUp, moveDown, setPosition, getPosition, getSprite, destroy });
+  return { ...res, inputs$ };
 }
