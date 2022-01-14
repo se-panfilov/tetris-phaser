@@ -1,45 +1,37 @@
-import { Actor, ActorConfig, ActorInputConfigResult } from '@/models';
+import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
-import { AbstractActor, IAbstractActor } from '@/entities/lib/Actor/AbstractActor';
-import { ActorSpriteMixin, IActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
-import { ActorPositionMixin, IActorPositionMixin } from '@/entities/lib/Actor/ActorPositionMixin';
+import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
 
-  const actor: IAbstractActor = AbstractActor(id);
-  const actorSpriteMixin: IActorSpriteMixin = ActorSpriteMixin(actor, config);
-  const actorPositionMixin: IActorPositionMixin = ActorPositionMixin();
+  const { spritePosition$, destroy: destroySprite } = ActorSpriteMixin(config);
+  const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
+  // TODO (S.Panfilov) any
+  const input$ = new Subject<any>();
+  // TODO (S.Panfilov) this is update with delta value
+  const update$ = new BehaviorSubject<number>(0);
 
-  const actorParts = {
-    ...actor,
-    ...actorSpriteMixin,
-    ...actorPositionMixin
-  };
+  position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
 
-  // const MOVE_STEP: number = 1;
-  //
-  // function moveUp(): void {
-  //   const { x, y } = position$.value;
-  //   setPosition({ x, y: y - getDelta() - MOVE_STEP });
-  // }
-
-  actorPositionMixin.position$.subscribe((value) => actorSpriteMixin.update(value));
-
-  function update(delta: number): void {
-    actorPositionMixin.position$.next(positionWithDelta);
-    // actorSpriteMixin.update();
-  }
+  input$
+    //.pipe() // TODO (S.Panfilov) distinct directions
+    .subscribe((value) => {
+      position$.next(value);
+    });
 
   function destroy(): void {
-    actor.destroy();
-    actorSpriteMixin.destroy();
-    actorPositionMixin.destroy();
+    destroySprite();
+    position$.complete();
+    input$.complete();
   }
 
-  const res = { ...actorParts, update, destroy };
-
-  const inputs$: ReadonlyArray<ActorInputConfigResult> = config.inputConfig.map((input) => input(res));
-
-  return { ...res, inputs$ };
+  return {
+    id,
+    input$,
+    position$,
+    update$,
+    destroy
+  };
 }

@@ -10,7 +10,6 @@ const DefaultOptions: SpriteOptions = {
 };
 
 export function LoadActorSprite(
-  actorId: string,
   spriteURL: string,
   size: SpriteSize,
   options: SpriteOptions = DefaultOptions
