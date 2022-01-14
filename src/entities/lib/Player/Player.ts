@@ -1,7 +1,7 @@
 import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
 import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 
 export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
@@ -15,9 +15,12 @@ export function Player(config: ActorConfig = playerConfig): Actor {
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
 
-  input$
+  combineLatest([input$, update$])
     //.pipe() // TODO (S.Panfilov) distinct directions
-    .subscribe((value) => {
+    .subscribe(([value]) => {
+      // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
+      // TODO (S.Panfilov) CWP need to calculate a position based on current value and delta (update$)
+      // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       position$.next(value);
     });
 

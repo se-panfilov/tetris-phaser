@@ -1,8 +1,8 @@
 import { ActorConfig, ActorPosition } from '@/models';
 import { LoadActorSprite } from '@/services/lib/ActorService';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Sprite } from 'pixi.js';
-import { isDefined } from '@/utils';
+import { isDefined, isNotDefined } from '@/utils';
 
 export function ActorSpriteMixin({ width, height, spriteURL }: ActorConfig): IActorSpriteMixin {
   const sprite$ = new BehaviorSubject<Sprite | undefined>(undefined);
@@ -10,19 +10,16 @@ export function ActorSpriteMixin({ width, height, spriteURL }: ActorConfig): IAc
 
   LoadActorSprite(spriteURL, { height, width }).then((sprite) => sprite$.next(sprite));
 
-  spritePosition$
-    // .pipe() is sprite defined
-    // together with sprite
-    .subscribe(({ x, y }: ActorPosition) => {
-      // TODO (S.Panfilov) refactor
-      if (!sprite$.value) return;
-      sprite$.value.x = x;
-      sprite$.value.y = y;
-    });
+  combineLatest([sprite$, spritePosition$]).subscribe(([sprite, { x, y }]) => {
+    if (isNotDefined(sprite)) return;
+    sprite.x = x;
+    sprite.y = y;
+  });
 
   function destroy(): void {
     if (isDefined(sprite$?.value)) sprite$.value.destroy();
     sprite$.complete();
+    spritePosition$.complete();
   }
 
   return { destroy, sprite$, spritePosition$ };
