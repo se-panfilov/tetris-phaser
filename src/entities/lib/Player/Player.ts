@@ -20,6 +20,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
     .subscribe(([value]) => {
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       // TODO (S.Panfilov) CWP need to calculate a position based on current value and delta (update$)
+      // TODO (S.Panfilov) we should manipulate by actors via input$, not position$
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       position$.next(value);
     });
