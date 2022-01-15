@@ -7,5 +7,6 @@ export interface Actor {
   readonly action$: Subject<PlayerActionState>;
   readonly update$: BehaviorSubject<number>;
   readonly position$: BehaviorSubject<ActorPosition>;
+  readonly orientation$: BehaviorSubject<number>;
   readonly destroy: (actor: Actor) => void;
 }

@@ -1,14 +1,9 @@
 import { Subject } from 'rxjs';
 import { INPUT_EVENT, KeyState } from '@/input/lib/model';
 
-let keyboard$: Subject<KeyState>;
-
-export function getKeyboard(): Subject<KeyState> {
-  return keyboard$;
-}
+export const keyboard$ = new Subject<KeyState>();
 
 export function initKeyboard(): void {
-  keyboard$ = new Subject<KeyState>();
   // TODO (S.Panfilov) what options is false?
   window.addEventListener(INPUT_EVENT.KEYDOWN, (evt: KeyboardEvent) => keyListener(evt, true), false);
   window.addEventListener(INPUT_EVENT.KEYUP, (evt: KeyboardEvent) => keyListener(evt, false), false);

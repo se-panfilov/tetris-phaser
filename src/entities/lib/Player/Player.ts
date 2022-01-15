@@ -7,13 +7,15 @@ import { PlayerActions, PlayerActionState } from '@/entities';
 export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
 
-  const { spritePosition$, destroy: destroySprite } = ActorSpriteMixin(config);
+  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(config);
   const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
   const action$ = new Subject<PlayerActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
+  const orientation$ = new BehaviorSubject<number>(0);
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
+  orientation$.subscribe((value: number) => spriteOrientation$.next(value));
 
   const PLAYER_MOVE_SPEED = 1;
   let isMoveUp = false;
@@ -55,6 +57,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
     id,
     action$,
     position$,
+    orientation$,
     update$,
     destroy
   };

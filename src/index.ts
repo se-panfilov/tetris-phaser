@@ -5,6 +5,8 @@ import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
 import { KEY_A, KEY_D, KEY_S, KEY_W } from '@/input/lib/Keyboard/KeyCode/Letters';
 import { distinctKeyEvents } from '@/input/lib/Utils';
+import { initMouse, mousePosition$ } from '@/input/lib/Mouse';
+import { combineLatest } from 'rxjs';
 
 const appConfig = {
   width: 800,
@@ -18,6 +20,7 @@ utils.skipHello();
 
 const app = new Application(appConfig);
 setApplication(app);
+initMouse(app);
 
 document.body.appendChild(app.view);
 
@@ -56,8 +59,25 @@ Key$(KEY_D)
     player.action$.next({ value: PlayerActions.MOVE_RIGHT, isActive: keyState.isDown });
   });
 
+combineLatest([mousePosition$, player.position$])
+  .pipe
+  // TODO (S.Panfilov)
+  //coerce to degs
+  ()
+  .subscribe((degrees: any) => {
+    // .subscribe((degrees: number) => {
+    //   player.orientation$.next(degrees);
+    player.orientation$.next(0);
+  });
+
 function update(delta: number): void {
   setDelta(delta);
   player.update$.next(delta);
   // playerPromise.then(({ move }) => move(delta));
+}
+
+// TODO (S.Panfilov) this function is unused (perhaps need a reset instead of destroy)
+function destroy(): void {
+  // TODO (S.Panfilov) check, that "keyboard$.complete()" also completes all watched keys (Key$)
+  // keyboard$.complete();
 }
