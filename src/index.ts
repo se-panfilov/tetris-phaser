@@ -3,8 +3,8 @@ import { Player, PlayerActions } from '@/entities';
 import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
-import { KEY_S } from '@/input/lib/Keyboard/KeyCode/Letters';
-import { distinctKeyEvents, isKeyDown, isKeyUp } from '@/input/lib/Utils';
+import { KEY_A, KEY_D, KEY_S, KEY_W } from '@/input/lib/Keyboard/KeyCode/Letters';
+import { distinctKeyEvents } from '@/input/lib/Utils';
 
 const appConfig = {
   width: 800,
@@ -28,24 +28,32 @@ player.position$.next({ x: 96, y: 96 });
 // player.destroy();
 
 // TODO (S.Panfilov) example 1
-// Key$(KEY_W)
-//   .pipe(isKeyDown)
-//   .subscribe((v) => {
-//     console.log(v);
-//     playerPromise.then((p) => (<any>p).moveUp());
-//   });
-//
-// // TODO (S.Panfilov) example 2
-Key$(KEY_S)
-  .pipe(distinctKeyEvents, isKeyDown)
-  .subscribe((v) => {
-    player.action$.next({ value: PlayerActions.MOVE_DOWN, isActive: true });
+Key$(KEY_W)
+  .pipe(distinctKeyEvents)
+  .subscribe((keyState) => {
+    player.action$.next({ value: PlayerActions.MOVE_UP, isActive: keyState.isDown });
   });
 
+// TODO (S.Panfilov) example 2
 Key$(KEY_S)
-  .pipe(distinctKeyEvents, isKeyUp)
-  .subscribe((v) => {
-    player.action$.next({ value: PlayerActions.MOVE_DOWN, isActive: false });
+  // .pipe(distinctKeyEvents, isKeyDown)
+  .pipe(distinctKeyEvents)
+  .subscribe((keyState) => {
+    player.action$.next({ value: PlayerActions.MOVE_DOWN, isActive: keyState.isDown });
+  });
+
+// TODO (S.Panfilov) example 2
+Key$(KEY_A)
+  .pipe(distinctKeyEvents)
+  .subscribe((keyState) => {
+    player.action$.next({ value: PlayerActions.MOVE_LEFT, isActive: keyState.isDown });
+  });
+
+// TODO (S.Panfilov) example 2
+Key$(KEY_D)
+  .pipe(distinctKeyEvents)
+  .subscribe((keyState) => {
+    player.action$.next({ value: PlayerActions.MOVE_RIGHT, isActive: keyState.isDown });
   });
 
 function update(delta: number): void {

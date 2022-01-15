@@ -16,7 +16,10 @@ export function Player(config: ActorConfig = playerConfig): Actor {
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
 
   const PLAYER_MOVE_SPEED = 1;
+  let isMoveUp = false;
   let isMoveDown = false;
+  let isMoveLeft = false;
+  let isMoveRight = false;
 
   combineLatest([action$, update$])
     .pipe(
@@ -32,18 +35,18 @@ export function Player(config: ActorConfig = playerConfig): Actor {
       // TODO (S.Panfilov) we should manipulate by actors via action$, not position$
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       console.log(action);
+      if (action.value === PlayerActions.MOVE_UP) isMoveUp = action.isActive;
       if (action.value === PlayerActions.MOVE_DOWN) isMoveDown = action.isActive;
+      if (action.value === PlayerActions.MOVE_LEFT) isMoveLeft = action.isActive;
+      if (action.value === PlayerActions.MOVE_RIGHT) isMoveRight = action.isActive;
     });
 
   update$.subscribe((delta) => {
+    if (isMoveUp) position$.next({ x: position$.value.x, y: position$.value.y - PLAYER_MOVE_SPEED - delta });
     if (isMoveDown) position$.next({ x: position$.value.x, y: position$.value.y + PLAYER_MOVE_SPEED + delta });
+    if (isMoveLeft) position$.next({ x: position$.value.x - PLAYER_MOVE_SPEED - delta, y: position$.value.y });
+    if (isMoveRight) position$.next({ x: position$.value.x + PLAYER_MOVE_SPEED + delta, y: position$.value.y });
   });
-
-  function getUpdatedPosition(position: ActorPosition) {
-    return { x: position.x, y: position.y };
-  }
-
-  function moveUpLoop() {}
 
   function destroy(): void {
     destroySprite();
