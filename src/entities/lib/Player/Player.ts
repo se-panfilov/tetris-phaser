@@ -10,7 +10,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
   const { spritePosition$, destroy: destroySprite } = ActorSpriteMixin(config);
   const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
   const action$ = new Subject<PlayerActionState>();
-  // TODO (S.Panfilov) this is update with delta value
+  //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
@@ -26,14 +26,10 @@ export function Player(config: ActorConfig = playerConfig): Actor {
       // TODO (S.Panfilov) Should distinct inputs (directions, fire, etc)
       // distinct inputs here
 
-      // Fire only when action$ changed
+      // Fires only when action$ changed
       distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr)
     )
     .subscribe(([action, delta]) => {
-      // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
-      // TODO (S.Panfilov) CWP need to calculate a position based on current value and delta (update$)
-      // TODO (S.Panfilov) we should manipulate by actors via action$, not position$
-      // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       console.log(action);
       if (action.value === PlayerActions.MOVE_UP) isMoveUp = action.isActive;
       if (action.value === PlayerActions.MOVE_DOWN) isMoveDown = action.isActive;
@@ -52,6 +48,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
     destroySprite();
     position$.complete();
     action$.complete();
+    update$.complete();
   }
 
   return {
