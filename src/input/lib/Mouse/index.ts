@@ -18,5 +18,3 @@ function touchHandler(event: InteractionEvent): void {
 
   mousePosition$.next({ x, y });
 }
-
-mousePosition$.subscribe(console.log);

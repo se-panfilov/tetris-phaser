@@ -1,4 +1,4 @@
-import { Application, utils } from 'pixi.js';
+import { Application, Graphics, utils } from 'pixi.js';
 import { Player, PlayerActions } from '@/entities';
 import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
@@ -6,7 +6,8 @@ import { Key$ } from '@/input';
 import { KEY_A, KEY_D, KEY_S, KEY_W } from '@/input/lib/Keyboard/KeyCode/Letters';
 import { distinctKeyEvents } from '@/input/lib/Utils';
 import { initMouse, mousePosition$ } from '@/input/lib/Mouse';
-import { combineLatest } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
+import { getAngleToMouse } from '@/utils/lib/Math';
 
 const appConfig = {
   width: 800,
@@ -21,6 +22,12 @@ utils.skipHello();
 const app = new Application(appConfig);
 setApplication(app);
 initMouse(app);
+
+const background = new Graphics();
+background.beginFill(0x123456);
+background.drawRect(0, 0, 800, 600);
+background.endFill();
+app.stage.addChild(background);
 
 document.body.appendChild(app.view);
 
@@ -60,14 +67,12 @@ Key$(KEY_D)
   });
 
 combineLatest([mousePosition$, player.position$])
-  .pipe
-  // TODO (S.Panfilov)
-  //coerce to degs
-  ()
+  .pipe(map(([mousePosition, playerPosition]) => getAngleToMouse(mousePosition, playerPosition)))
   .subscribe((degrees: any) => {
+    console.log('111', degrees);
     // .subscribe((degrees: number) => {
     //   player.orientation$.next(degrees);
-    player.orientation$.next(0);
+    player.orientation$.next(degrees);
   });
 
 function update(delta: number): void {
