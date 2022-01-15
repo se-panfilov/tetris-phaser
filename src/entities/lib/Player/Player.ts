@@ -1,39 +1,50 @@
 import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
 import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
+import { PlayerActions } from '@/entities';
 
 export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
 
   const { spritePosition$, destroy: destroySprite } = ActorSpriteMixin(config);
   const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
-  // TODO (S.Panfilov) any
-  const input$ = new Subject<any>();
+  const action$ = new Subject<PlayerActions>();
   // TODO (S.Panfilov) this is update with delta value
   const update$ = new BehaviorSubject<number>(0);
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
 
-  combineLatest([input$, update$])
-    //.pipe() // TODO (S.Panfilov) distinct directions
-    .subscribe(([value]) => {
+  const PLAYER_MOVE_SPEED = 5;
+
+  combineLatest([action$, update$])
+    .pipe(
+      // TODO (S.Panfilov) Should distinct inputs (directions, fire, etc)
+      // distinct inputs here
+
+      // Fire only when action$ changed
+      distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr)
+    )
+    .subscribe(([action, delta]) => {
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
       // TODO (S.Panfilov) CWP need to calculate a position based on current value and delta (update$)
-      // TODO (S.Panfilov) we should manipulate by actors via input$, not position$
+      // TODO (S.Panfilov) we should manipulate by actors via action$, not position$
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
-      position$.next(value);
+
+      if (action === PlayerActions.MOVE_DOWN) {
+        position$.next({ x: position$.value.x, y: position$.value.y - PLAYER_MOVE_SPEED - delta });
+      }
     });
 
   function destroy(): void {
     destroySprite();
     position$.complete();
-    input$.complete();
+    action$.complete();
   }
 
   return {
     id,
-    input$,
+    action$,
     position$,
     update$,
     destroy

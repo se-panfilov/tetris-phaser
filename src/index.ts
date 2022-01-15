@@ -1,5 +1,5 @@
 import { Application, utils } from 'pixi.js';
-import { Player } from '@/entities';
+import { Player, PlayerActions } from '@/entities';
 import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
@@ -39,8 +39,7 @@ player.position$.next({ x: 96, y: 96 });
 Key$(KEY_S)
   .pipe(distinctKeyEvents, isKeyDown)
   .subscribe((v) => {
-    console.log(v);
-    player.position$.next({ x: player.position$.value.x, y: player.position$.value.y + 10 });
+    player.action$.next(PlayerActions.MOVE_DOWN);
   });
 
 function update(delta: number): void {
