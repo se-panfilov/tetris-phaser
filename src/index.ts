@@ -68,12 +68,7 @@ Key$(KEY_D)
 
 combineLatest([mousePosition$, player.position$])
   .pipe(map(([mousePosition, playerPosition]) => getAngleToMouse(mousePosition, playerPosition)))
-  .subscribe((degrees: any) => {
-    console.log('111', degrees);
-    // .subscribe((degrees: number) => {
-    //   player.orientation$.next(degrees);
-    player.orientation$.next(degrees);
-  });
+  .subscribe((degrees: number) => player.orientation$.next(degrees));
 
 function update(delta: number): void {
   setDelta(delta);
