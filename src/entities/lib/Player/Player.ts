@@ -2,14 +2,14 @@ import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
 import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
-import { PlayerActions } from '@/entities';
+import { PlayerActions, PlayerActionState } from '@/entities';
 
 export function Player(config: ActorConfig = playerConfig): Actor {
   const id: string = 'Player';
 
   const { spritePosition$, destroy: destroySprite } = ActorSpriteMixin(config);
   const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
-  const action$ = new Subject<PlayerActions>();
+  const action$ = new Subject<PlayerActionState>();
   // TODO (S.Panfilov) this is update with delta value
   const update$ = new BehaviorSubject<number>(0);
 
@@ -30,8 +30,8 @@ export function Player(config: ActorConfig = playerConfig): Actor {
       // TODO (S.Panfilov) CWP need to calculate a position based on current value and delta (update$)
       // TODO (S.Panfilov) we should manipulate by actors via action$, not position$
       // TODO (S.Panfilov) !!!!!!!!!!!!!!!!!!!!
-
-      if (action === PlayerActions.MOVE_DOWN) {
+      console.log(action);
+      if (action.value === PlayerActions.MOVE_DOWN) {
         position$.next({ x: position$.value.x, y: position$.value.y - PLAYER_MOVE_SPEED - delta });
       }
     });

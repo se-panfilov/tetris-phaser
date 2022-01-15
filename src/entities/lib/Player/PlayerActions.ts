@@ -4,3 +4,8 @@ export enum PlayerActions {
   MOVE_LEFT = 'MOVE_LEFT',
   MOVE_RIGHT = 'MOVE_RIGHT'
 }
+
+export interface PlayerActionState {
+  readonly value: PlayerActions;
+  readonly isActive: boolean;
+}

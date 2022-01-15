@@ -4,7 +4,7 @@ import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
 import { KEY_S } from '@/input/lib/Keyboard/KeyCode/Letters';
-import { distinctKeyEvents, isKeyDown } from '@/input/lib/Utils';
+import { distinctKeyEvents, isKeyDown, isKeyUp } from '@/input/lib/Utils';
 
 const appConfig = {
   width: 800,
@@ -39,7 +39,13 @@ player.position$.next({ x: 96, y: 96 });
 Key$(KEY_S)
   .pipe(distinctKeyEvents, isKeyDown)
   .subscribe((v) => {
-    player.action$.next(PlayerActions.MOVE_DOWN);
+    player.action$.next({ value: PlayerActions.MOVE_DOWN, isActive: true });
+  });
+
+Key$(KEY_S)
+  .pipe(distinctKeyEvents, isKeyUp)
+  .subscribe((v) => {
+    player.action$.next({ value: PlayerActions.MOVE_DOWN, isActive: false });
   });
 
 function update(delta: number): void {
