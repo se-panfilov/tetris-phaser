@@ -1,5 +1,6 @@
 import { Application, Graphics, utils } from 'pixi.js';
-import { Player, PlayerActions } from '@/entities';
+import { Player } from '@/entities';
+import * as PlayerActions from '@/entities/lib/Player/PlayerActions';
 import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';

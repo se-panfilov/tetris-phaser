@@ -1,10 +1,10 @@
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ActorPosition } from '@/models';
-import { PlayerActionState } from '@/entities';
+import { ActorActionState } from '@/input';
 
 export interface Actor {
   readonly id: string;
-  readonly action$: Subject<PlayerActionState>;
+  readonly action$: Subject<ActorActionState>;
   readonly update$: BehaviorSubject<number>;
   readonly position$: BehaviorSubject<ActorPosition>;
   readonly orientation$: BehaviorSubject<number>;

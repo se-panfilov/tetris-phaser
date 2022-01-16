@@ -1,11 +1,3 @@
-export enum PlayerActions {
-  MOVE_UP = 'MOVE_UP',
-  MOVE_DOWN = 'MOVE_DOWN',
-  MOVE_LEFT = 'MOVE_LEFT',
-  MOVE_RIGHT = 'MOVE_RIGHT'
-}
+import { InputActions } from '@/input/lib/constants';
 
-export interface PlayerActionState {
-  readonly value: PlayerActions;
-  readonly isActive: boolean;
-}
+export const { MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT } = InputActions;
