@@ -4,6 +4,7 @@ import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'r
 import { bulletConfig } from '@/entities/lib/Bullet/Config';
 import { ActorActionState } from '@/input';
 import { GO_BY_AZIMUTH } from '@/entities/lib/Bullet/BulletActions';
+import { adjustCoordsByOrientation } from '@/utils/lib/Math';
 
 export function Bullet(config: ActorConfig = bulletConfig): Actor {
   const id: string = 'Bullet';
@@ -30,16 +31,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
 
   update$.subscribe((delta) => {
     if (isGoByAzimuth) {
-      const cos = Math.cos(orientation$.value);
-      const sin = Math.sin(orientation$.value);
-      const isLeft = sin < 0;
-      const isDown = cos < 0;
-      const x = position$.value.x + Math.cos(orientation$.value) * MOVE_SPEED;
-      const y = position$.value.y + Math.sin(orientation$.value) * MOVE_SPEED;
-      position$.next({
-        x: isDown ? x - delta : x + delta,
-        y: isLeft ? y - delta : y + delta
-      });
+      position$.next(adjustCoordsByOrientation(position$.value, orientation$.value, MOVE_SPEED, delta));
     }
   });
 
