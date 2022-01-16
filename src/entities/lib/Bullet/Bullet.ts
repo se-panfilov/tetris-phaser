@@ -29,11 +29,18 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
     });
 
   update$.subscribe((delta) => {
-    if (isGoByAzimuth)
+    if (isGoByAzimuth) {
+      const cos = Math.cos(orientation$.value);
+      const sin = Math.sin(orientation$.value);
+      const isLeft = sin < 0;
+      const isDown = cos < 0;
+      const x = position$.value.x + Math.cos(orientation$.value) * MOVE_SPEED;
+      const y = position$.value.y + Math.sin(orientation$.value) * MOVE_SPEED;
       position$.next({
-        x: position$.value.x + Math.cos(orientation$.value) * 1,
-        y: position$.value.y + Math.sin(orientation$.value) * 1
+        x: isDown ? x - delta : x + delta,
+        y: isLeft ? y - delta : y + delta
       });
+    }
   });
 
   function destroy(): void {
