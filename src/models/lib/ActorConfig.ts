@@ -5,4 +5,5 @@ export interface ActorConfig {
   readonly height: number;
   readonly spriteURL: string;
   readonly position: ActorPosition;
+  readonly orientation: number;
 }

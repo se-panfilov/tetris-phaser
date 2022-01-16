@@ -14,7 +14,7 @@ export function Player(config: ActorConfig = playerConfig): iPlayer {
   const action$ = new Subject<ActorActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
-  const orientation$ = new BehaviorSubject<number>(0);
+  const orientation$ = new BehaviorSubject<number>(config.orientation);
   const shoot$ = new Subject<void>();
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));

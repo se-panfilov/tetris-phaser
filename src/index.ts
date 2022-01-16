@@ -72,20 +72,23 @@ combineLatest([mousePosition$, player.position$])
   .pipe(map(([mousePosition, playerPosition]) => getAngleToMouse(mousePosition, playerPosition)))
   .subscribe((degrees: number) => player.orientation$.next(degrees));
 
-function update(delta: number): void {
-  setDelta(delta);
-  player.update$.next(delta);
-  // playerPromise.then(({ move }) => move(delta));
-}
-
+let bullets: ReadonlyArray<ReturnType<typeof Bullet>> = [];
 player.shoot$.subscribe(() => {
-  const bullet = Bullet({ ...bulletConfig, position: player.position$.value });
+  const bullet = Bullet({ ...bulletConfig, position: player.position$.value, orientation: player.orientation$.value });
+  bullets = [...bullets, bullet];
   bullet.action$.next({ value: GO_BY_AZIMUTH, isActive: true });
 });
 
 setTimeout(() => {
   player.shoot$.next();
-}, 1000);
+}, 3000);
+
+function update(delta: number): void {
+  setDelta(delta);
+  player.update$.next(delta);
+  bullets.forEach((bullet) => bullet.update$.next(delta));
+  // playerPromise.then(({ move }) => move(delta));
+}
 
 // TODO (S.Panfilov) this function is unused (perhaps need a reset instead of destroy)
 function destroy(): void {

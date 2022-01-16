@@ -13,7 +13,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
   const action$ = new Subject<ActorActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
-  const orientation$ = new BehaviorSubject<number>(0);
+  const orientation$ = new BehaviorSubject<number>(config.orientation);
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
   orientation$.subscribe((value: number) => spriteOrientation$.next(value));
@@ -29,7 +29,11 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
     });
 
   update$.subscribe((delta) => {
-    if (isGoByAzimuth) position$.next({ x: position$.value.x, y: position$.value.y - MOVE_SPEED - delta });
+    if (isGoByAzimuth)
+      position$.next({
+        x: position$.value.x + Math.cos(orientation$.value) * 1,
+        y: position$.value.y + Math.sin(orientation$.value) * 1
+      });
   });
 
   function destroy(): void {
