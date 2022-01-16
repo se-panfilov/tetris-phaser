@@ -8,8 +8,8 @@ import { GO_BY_AZIMUTH } from '@/entities/lib/Bullet/BulletActions';
 export function Bullet(config: ActorConfig = bulletConfig): Actor {
   const id: string = 'Bullet';
 
-  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(config);
-  const position$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
+  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(id, config);
+  const position$ = new BehaviorSubject<ActorPosition>(config.position);
   const action$ = new Subject<ActorActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);

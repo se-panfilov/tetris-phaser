@@ -1,17 +1,25 @@
-import { Application, Loader, Sprite } from 'pixi.js';
+import { Application, Loader, LoaderResource, Sprite } from 'pixi.js';
+import { Dict } from '@pixi/utils';
 import { isNotDefined } from '@/utils';
 import { SpriteSize } from '@/models';
 import { getApplication } from '@/globals';
 
-export function loadSprite(spriteURL: string): Promise<Sprite> {
+export function loadSprite(name: string, spriteURL: string): Promise<Sprite> {
+  const loader = new Loader();
   return new Promise((resolve, reject) => {
-    Loader.shared.add(spriteURL).load(() => {
-      const loader = Loader.shared.resources[spriteURL];
-      if (isNotDefined(loader)) return reject(new Error(`Cannot load resource for "${spriteURL}"`));
-      const sprite = new Sprite(loader.texture);
+    loader.add(name, spriteURL).load((loader: Loader, resources: Dict<LoaderResource>) => {
+      // const loader = Loader.shared.resources[spriteURL];
+      if (isNotDefined(loader) || isNotDefined(resources[name]?.texture))
+        return reject(new Error(`Cannot load resource for "${spriteURL}"`));
+      const sprite = new Sprite(resources[name]?.texture);
       resolve(sprite);
     });
   });
+
+  loader.onProgress.add((v) => console.log(v)); // called once per loaded/errored file
+  loader.onError.add((v) => console.log(v)); // called once per errored file
+  loader.onLoad.add((v) => console.log(v)); // called once per loaded file
+  loader.onComplete.add((v) => console.log(v)); // called once when the queued resources all load.
 }
 
 export function setSpriteSize(sprite: Sprite, { width, height }: SpriteSize): void {

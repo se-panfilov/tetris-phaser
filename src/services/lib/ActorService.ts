@@ -10,12 +10,13 @@ const DefaultOptions: SpriteOptions = {
 };
 
 export function LoadActorSprite(
+  name: string,
   spriteURL: string,
   size: SpriteSize,
   options: SpriteOptions = DefaultOptions
 ): Promise<Sprite> {
   return new Promise<Sprite>((resolve) =>
-    loadSprite(spriteURL).then((sprite: Sprite) => {
+    loadSprite(name, spriteURL).then((sprite: Sprite) => {
       if (size) setSpriteSize(sprite, size);
       if (options.anchor) setSpriteAnchor(sprite, options.anchor.x, options.anchor.y);
       return addSpriteToStage(sprite).then((sprite) => resolve(sprite));
