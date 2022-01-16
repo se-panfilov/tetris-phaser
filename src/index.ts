@@ -1,7 +1,6 @@
 import { Application, Graphics, utils } from 'pixi.js';
-import { Player } from '@/entities';
+import { iPlayer, Player } from '@/entities';
 import * as PlayerActions from '@/entities/lib/Player/PlayerActions';
-import { Actor } from '@/models';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
 import { KEY_A, KEY_D, KEY_S, KEY_W } from '@/input/lib/Keyboard/KeyCode/Letters';
@@ -9,6 +8,8 @@ import { distinctKeyEvents } from '@/input/lib/Utils';
 import { initMouse, mousePosition$ } from '@/input/lib/Mouse';
 import { combineLatest, map } from 'rxjs';
 import { getAngleToMouse } from '@/utils/lib/Math';
+import { Bullet } from '@/entities/lib/Bullet';
+import { bulletConfig } from '@/entities/lib/Bullet/Config';
 
 const appConfig = {
   width: 800,
@@ -34,7 +35,7 @@ document.body.appendChild(app.view);
 
 app.ticker.add((delta) => update(delta));
 
-const player: Actor = Player();
+const player: iPlayer = Player();
 player.position$.next({ x: 96, y: 96 });
 // player.destroy();
 
@@ -76,6 +77,15 @@ function update(delta: number): void {
   player.update$.next(delta);
   // playerPromise.then(({ move }) => move(delta));
 }
+
+player.shoot$.subscribe(() => {
+  // const bullet = Bullet({ ...bulletConfig, position: player.position$.value });
+  // app.stage.addChild(bullet)
+});
+
+setTimeout(() => {
+  player.shoot$.next();
+}, 1000);
 
 // TODO (S.Panfilov) this function is unused (perhaps need a reset instead of destroy)
 function destroy(): void {

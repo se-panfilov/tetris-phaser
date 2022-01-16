@@ -4,8 +4,9 @@ import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
+import { iPlayer } from '@/entities/lib/Player/IPlayer';
 
-export function Player(config: ActorConfig = playerConfig): Actor {
+export function Player(config: ActorConfig = playerConfig): iPlayer {
   const id: string = 'Player';
 
   const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(config);
@@ -14,6 +15,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
   const orientation$ = new BehaviorSubject<number>(0);
+  const shoot$ = new Subject<void>();
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
   orientation$.subscribe((value: number) => spriteOrientation$.next(value));
@@ -46,6 +48,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
     position$.complete();
     action$.complete();
     update$.complete();
+    shoot$.complete();
   }
 
   return {
@@ -54,6 +57,7 @@ export function Player(config: ActorConfig = playerConfig): Actor {
     position$,
     orientation$,
     update$,
+    shoot$,
     destroy
   };
 }
