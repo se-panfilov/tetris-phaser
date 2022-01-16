@@ -79,10 +79,10 @@ player.shoot$.subscribe(() => {
   bullet.action$.next({ value: GO_BY_AZIMUTH, isActive: true });
 });
 
-setInterval(() => {
+setTimeout(() => {
   // TODO (S.Panfilov) CWP make shooting by clicking, not with timeout
   player.shoot$.next();
-}, 1000);
+}, 2000);
 
 function update(delta: number): void {
   setDelta(delta);

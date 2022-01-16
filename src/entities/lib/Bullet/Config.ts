@@ -1,10 +1,10 @@
 import { ActorConfig } from '@/models';
-import playerURL from '@/assets/player.png';
+import bulletURL from '@/assets/bullet.png';
 
 export const bulletConfig: ActorConfig = {
-  width: 39,
-  height: 50,
-  spriteURL: playerURL,
+  width: 23,
+  height: 26,
+  spriteURL: bulletURL,
   position: { x: 0, y: 0 },
   orientation: 0
 };
