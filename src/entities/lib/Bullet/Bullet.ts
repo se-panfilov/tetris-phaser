@@ -39,6 +39,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
     destroySprite();
     position$.complete();
     action$.complete();
+    orientation$.complete();
     update$.complete();
   }
 

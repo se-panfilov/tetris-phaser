@@ -46,6 +46,7 @@ export function Character(config: ActorConfig = characterConfig): Actor {
     destroySprite();
     position$.complete();
     action$.complete();
+    orientation$.complete();
     update$.complete();
   }
 
