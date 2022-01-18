@@ -1,12 +1,11 @@
-import { ActorConfig, ActorPosition } from '@/models';
+import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { characterConfig } from '@/entities/lib/Character/Config';
 import { ActorSpriteMixin } from '@/entities/lib/ActorMixins/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
-import { ICharacter } from '@/entities/lib/Character/ICharacter';
 
-export function Character(config: ActorConfig = characterConfig): ICharacter {
+export function Character(config: ActorConfig = characterConfig): Actor {
   const id: string = 'Player';
 
   const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(id, config);
@@ -15,12 +14,11 @@ export function Character(config: ActorConfig = characterConfig): ICharacter {
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
   const update$ = new BehaviorSubject<number>(0);
   const orientation$ = new BehaviorSubject<number>(config.orientation);
-  const shoot$ = new Subject<void>();
 
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
   orientation$.subscribe((value: number) => spriteOrientation$.next(value));
 
-  const PLAYER_MOVE_SPEED = 1;
+  const MOVE_SPEED = 1;
   let isMoveUp = false;
   let isMoveDown = false;
   let isMoveLeft = false;
@@ -37,10 +35,10 @@ export function Character(config: ActorConfig = characterConfig): ICharacter {
     });
 
   update$.subscribe((delta) => {
-    if (isMoveUp) position$.next({ x: position$.value.x, y: position$.value.y - PLAYER_MOVE_SPEED - delta });
-    if (isMoveDown) position$.next({ x: position$.value.x, y: position$.value.y + PLAYER_MOVE_SPEED + delta });
-    if (isMoveLeft) position$.next({ x: position$.value.x - PLAYER_MOVE_SPEED - delta, y: position$.value.y });
-    if (isMoveRight) position$.next({ x: position$.value.x + PLAYER_MOVE_SPEED + delta, y: position$.value.y });
+    if (isMoveUp) position$.next({ x: position$.value.x, y: position$.value.y - MOVE_SPEED - delta });
+    if (isMoveDown) position$.next({ x: position$.value.x, y: position$.value.y + MOVE_SPEED + delta });
+    if (isMoveLeft) position$.next({ x: position$.value.x - MOVE_SPEED - delta, y: position$.value.y });
+    if (isMoveRight) position$.next({ x: position$.value.x + MOVE_SPEED + delta, y: position$.value.y });
   });
 
   function destroy(): void {
@@ -48,7 +46,6 @@ export function Character(config: ActorConfig = characterConfig): ICharacter {
     position$.complete();
     action$.complete();
     update$.complete();
-    shoot$.complete();
   }
 
   return {
@@ -57,7 +54,6 @@ export function Character(config: ActorConfig = characterConfig): ICharacter {
     position$,
     orientation$,
     update$,
-    shoot$,
     destroy
   };
 }
