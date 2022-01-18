@@ -25,7 +25,6 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
   combineLatest([action$, update$])
     .pipe(distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr))
     .subscribe(([action, delta]) => {
-      console.log(action);
       if (action.value === GO_BY_AZIMUTH) isGoByAzimuth = action.isActive;
     });
 

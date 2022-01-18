@@ -28,7 +28,6 @@ export function Character(config: ActorConfig = characterConfig): Actor {
   combineLatest([action$, update$])
     .pipe(distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr))
     .subscribe(([action, delta]) => {
-      console.log(action);
       if (action.value === MOVE_UP) isMovingUp = action.isActive;
       if (action.value === MOVE_DOWN) isMovingDown = action.isActive;
       if (action.value === MOVE_LEFT) isMovingLeft = action.isActive;

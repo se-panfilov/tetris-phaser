@@ -10,7 +10,6 @@ export function CharacterWithWeapon(actor: Actor): ICharacterWithWeaponMixin {
   combineLatest([actor.action$, actor.update$])
     .pipe(distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr))
     .subscribe(([action, delta]) => {
-      console.log(action);
       if (action.value === SHOOT) isShooting = action.isActive;
     });
 
