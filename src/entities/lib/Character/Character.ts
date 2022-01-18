@@ -19,27 +19,27 @@ export function Character(config: ActorConfig = characterConfig): Actor {
   orientation$.subscribe((value: number) => spriteOrientation$.next(value));
 
   const MOVE_SPEED = 1;
-  let isMoveUp = false;
-  let isMoveDown = false;
-  let isMoveLeft = false;
-  let isMoveRight = false;
+  let isMovingUp = false;
+  let isMovingDown = false;
+  let isMovingLeft = false;
+  let isMovingRight = false;
 
   // TODO (S.Panfilov) do we really need update$ here?
   combineLatest([action$, update$])
     .pipe(distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr))
     .subscribe(([action, delta]) => {
       console.log(action);
-      if (action.value === MOVE_UP) isMoveUp = action.isActive;
-      if (action.value === MOVE_DOWN) isMoveDown = action.isActive;
-      if (action.value === MOVE_LEFT) isMoveLeft = action.isActive;
-      if (action.value === MOVE_RIGHT) isMoveRight = action.isActive;
+      if (action.value === MOVE_UP) isMovingUp = action.isActive;
+      if (action.value === MOVE_DOWN) isMovingDown = action.isActive;
+      if (action.value === MOVE_LEFT) isMovingLeft = action.isActive;
+      if (action.value === MOVE_RIGHT) isMovingRight = action.isActive;
     });
 
-  update$.subscribe((delta) => {
-    if (isMoveUp) position$.next({ x: position$.value.x, y: position$.value.y - MOVE_SPEED - delta });
-    if (isMoveDown) position$.next({ x: position$.value.x, y: position$.value.y + MOVE_SPEED + delta });
-    if (isMoveLeft) position$.next({ x: position$.value.x - MOVE_SPEED - delta, y: position$.value.y });
-    if (isMoveRight) position$.next({ x: position$.value.x + MOVE_SPEED + delta, y: position$.value.y });
+  update$.subscribe((delta: number) => {
+    if (isMovingUp) position$.next({ x: position$.value.x, y: position$.value.y - MOVE_SPEED - delta });
+    if (isMovingDown) position$.next({ x: position$.value.x, y: position$.value.y + MOVE_SPEED + delta });
+    if (isMovingLeft) position$.next({ x: position$.value.x - MOVE_SPEED - delta, y: position$.value.y });
+    if (isMovingRight) position$.next({ x: position$.value.x + MOVE_SPEED + delta, y: position$.value.y });
   });
 
   function destroy(): void {
