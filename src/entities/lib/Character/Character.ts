@@ -6,9 +6,9 @@ import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
 
 export function Character(config: ActorConfig = characterConfig): Actor {
-  const id: string = 'Player';
+  const type: string = 'Character';
 
-  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(id, config);
+  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(type, config);
   const position$ = new BehaviorSubject<ActorPosition>(config.position);
   const action$ = new Subject<ActorActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
@@ -24,6 +24,7 @@ export function Character(config: ActorConfig = characterConfig): Actor {
   let isMoveLeft = false;
   let isMoveRight = false;
 
+  // TODO (S.Panfilov) do we really need update$ here?
   combineLatest([action$, update$])
     .pipe(distinctUntilChanged(([actionPrev], [inputCurr]) => actionPrev === inputCurr))
     .subscribe(([action, delta]) => {
@@ -49,7 +50,7 @@ export function Character(config: ActorConfig = characterConfig): Actor {
   }
 
   return {
-    id,
+    type,
     action$,
     position$,
     orientation$,

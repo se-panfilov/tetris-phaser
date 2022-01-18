@@ -7,9 +7,9 @@ import { GO_BY_AZIMUTH } from '@/entities/lib/Bullet/BulletActions';
 import { adjustCoordsByOrientation } from '@/utils/lib/Math';
 
 export function Bullet(config: ActorConfig = bulletConfig): Actor {
-  const id: string = 'Bullet';
+  const type: string = 'Bullet';
 
-  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(id, config);
+  const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(type, config);
   const position$ = new BehaviorSubject<ActorPosition>(config.position);
   const action$ = new Subject<ActorActionState>();
   //  This subject triggers on update loop step with the value of current delta (needed to not be dependent on user frame rate)
@@ -43,7 +43,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
   }
 
   return {
-    id,
+    type,
     action$,
     position$,
     orientation$,
