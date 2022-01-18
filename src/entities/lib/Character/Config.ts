@@ -1,7 +1,7 @@
 import { ActorConfig } from '@/models';
 import playerURL from '@/assets/player.png';
 
-export const playerConfig: ActorConfig = {
+export const characterConfig: ActorConfig = {
   width: 39,
   height: 50,
   spriteURL: playerURL,

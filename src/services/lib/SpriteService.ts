@@ -15,11 +15,6 @@ export function loadSprite(name: string, spriteURL: string): Promise<Sprite> {
       resolve(sprite);
     });
   });
-
-  loader.onProgress.add((v) => console.log(v)); // called once per loaded/errored file
-  loader.onError.add((v) => console.log(v)); // called once per errored file
-  loader.onLoad.add((v) => console.log(v)); // called once per loaded file
-  loader.onComplete.add((v) => console.log(v)); // called once when the queued resources all load.
 }
 
 export function setSpriteSize(sprite: Sprite, { width, height }: SpriteSize): void {

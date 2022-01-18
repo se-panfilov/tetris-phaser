@@ -1,12 +1,12 @@
-import { Actor, ActorConfig, ActorPosition } from '@/models';
-import { playerConfig } from '@/entities/lib/Player/Config';
+import { ActorConfig, ActorPosition } from '@/models';
+import { characterConfig } from '@/entities/lib/Character/Config';
 import { ActorSpriteMixin } from '@/entities/lib/ActorMixins/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
-import { iPlayer } from '@/entities/lib/Player/IPlayer';
+import { ICharacter } from '@/entities/lib/Character/ICharacter';
 
-export function Player(config: ActorConfig = playerConfig): iPlayer {
+export function Character(config: ActorConfig = characterConfig): ICharacter {
   const id: string = 'Player';
 
   const { spritePosition$, spriteOrientation$, destroy: destroySprite } = ActorSpriteMixin(id, config);

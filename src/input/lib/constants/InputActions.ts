@@ -3,5 +3,6 @@ export enum InputActions {
   MOVE_DOWN = 'MOVE_DOWN',
   MOVE_LEFT = 'MOVE_LEFT',
   MOVE_RIGHT = 'MOVE_RIGHT',
-  GO_BY_AZIMUTH = 'GO_BY_AZIMUTH'
+  GO_BY_AZIMUTH = 'GO_BY_AZIMUTH',
+  SHOOT = 'SHOOT'
 }

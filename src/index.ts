@@ -1,5 +1,5 @@
 import { Application, Graphics, utils } from 'pixi.js';
-import { iPlayer, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, Player } from '@/entities';
+import { ICharacter, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, Character } from '@/entities';
 import { setApplication, setDelta } from '@/globals';
 import { Key$ } from '@/input';
 import { KEY_A, KEY_D, KEY_S, KEY_W } from '@/input/lib/Keyboard/KeyCode/Letters';
@@ -35,7 +35,7 @@ document.body.appendChild(app.view);
 
 app.ticker.add((delta) => update(delta));
 
-const player: iPlayer = Player();
+const player: ICharacter = Character();
 player.position$.next({ x: 96, y: 96 });
 // player.destroy();
 
