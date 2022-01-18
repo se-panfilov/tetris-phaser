@@ -1,6 +1,6 @@
 import { Actor, ActorConfig, ActorPosition } from '@/models';
 import { playerConfig } from '@/entities/lib/Player/Config';
-import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
+import { ActorSpriteMixin } from '@/entities/lib/ActorMixins/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';

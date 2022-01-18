@@ -1,5 +1,5 @@
 import { Actor, ActorConfig, ActorPosition } from '@/models';
-import { ActorSpriteMixin } from '@/entities/lib/Actor/ActorSpriteMixin';
+import { ActorSpriteMixin } from '@/entities/lib/ActorMixins/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { bulletConfig } from '@/entities/lib/Bullet/Config';
 import { ActorActionState } from '@/input';
