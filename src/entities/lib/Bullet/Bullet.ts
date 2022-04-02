@@ -19,7 +19,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
   position$.subscribe((value: ActorPosition) => spritePosition$.next(value));
   orientation$.subscribe((value: number) => spriteOrientation$.next(value));
 
-  const MOVE_SPEED = 1;
+  const MOVE_SPEED = 3;
   let isGoByAzimuth = false;
 
   combineLatest([action$, update$])

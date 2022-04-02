@@ -1,9 +1,9 @@
 import { Application } from 'pixi.js';
 
-export interface CounterState {
+export interface GlobalState {
   app: Application | undefined;
 }
 
-export const initialState: CounterState = {
+export const initialState: GlobalState = {
   app: undefined
 };
