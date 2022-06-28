@@ -26,9 +26,7 @@ export function startApp({ engine }: WrappedApplication<Engine>): void {
 
   const background = getBackground(0x123456, 0, 0, 800, 600);
   attachBackground(engine, background);
-
   appendCanvasTo(engine, document.body);
-
   subscribeToTicker(engine, update);
 
   const character: Actor = Character();
