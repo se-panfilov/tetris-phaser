@@ -1,5 +1,4 @@
-import { Sprite } from 'pixi.js';
-import { Actor, SpriteOptions, SpriteSize } from '@/models';
+import { Actor, SpriteOptions, SpriteSize, WrappedSprite } from '@/models';
 import { addSpriteToStage, loadSprite, setSpriteAnchor, setSpriteSize } from '@/services';
 
 const DefaultOptions: SpriteOptions = {
@@ -14,9 +13,9 @@ export function LoadActorSprite(
   spriteURL: string,
   size: SpriteSize,
   options: SpriteOptions = DefaultOptions
-): Promise<Sprite> {
-  return new Promise<Sprite>((resolve) =>
-    loadSprite(name, spriteURL).then((sprite: Sprite) => {
+): Promise<WrappedSprite> {
+  return new Promise<WrappedSprite>((resolve) =>
+    loadSprite(name, spriteURL).then((sprite: WrappedSprite) => {
       if (size) setSpriteSize(sprite, size);
       if (options.anchor) setSpriteAnchor(sprite, options.anchor.x, options.anchor.y);
       return addSpriteToStage(sprite).then((sprite) => resolve(sprite));

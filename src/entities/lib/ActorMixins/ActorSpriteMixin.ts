@@ -1,11 +1,10 @@
-import { ActorConfig, ActorPosition } from '@/models';
+import { ActorConfig, ActorPosition, WrappedSprite } from '@/models';
 import { LoadActorSprite } from '@/services/lib/ActorService';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { Sprite } from 'pixi.js';
 import { isDefined, isNotDefined } from '@/utils';
 
 export function ActorSpriteMixin(name: string, { width, height, spriteURL }: ActorConfig): IActorSpriteMixin {
-  const sprite$ = new BehaviorSubject<Sprite | undefined>(undefined);
+  const sprite$ = new BehaviorSubject<WrappedSprite | undefined>(undefined);
   const spritePosition$ = new BehaviorSubject<ActorPosition>({ x: 0, y: 0 });
   const spriteOrientation$ = new BehaviorSubject<number>(0);
 
@@ -33,7 +32,7 @@ export function ActorSpriteMixin(name: string, { width, height, spriteURL }: Act
 }
 
 export interface IActorSpriteMixin {
-  readonly sprite$: BehaviorSubject<Sprite | undefined>;
+  readonly sprite$: BehaviorSubject<WrappedSprite | undefined>;
   readonly spritePosition$: BehaviorSubject<ActorPosition>;
   readonly spriteOrientation$: BehaviorSubject<number>;
   readonly destroy: () => void;

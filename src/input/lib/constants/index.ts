@@ -1,1 +1,1 @@
-export * from './InputActions';
+export * from './lib/InputActions';

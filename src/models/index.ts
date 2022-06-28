@@ -5,3 +5,5 @@ export * from './lib/ActorInputConfigResult';
 export * from './lib/ActorPosition';
 export * from './lib/SpriteOptions';
 export * from './lib/SpriteSize';
+export * from './lib/WrappedApplication';
+export * from './lib/WrappedEngineTypes';

@@ -1,2 +1,2 @@
-export * from './KeyCode';
-export * from './Keyboard';
+export * from './lib/KeyCode';
+export * from './lib/Keyboard';

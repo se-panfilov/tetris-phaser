@@ -1,4 +1,4 @@
-import { KeyCode } from '@/input/lib/model/KeyCode';
+import { KeyCode } from '@/input/lib/model/lib/KeyCode';
 
 export interface KeyState {
   readonly isDown: boolean;
