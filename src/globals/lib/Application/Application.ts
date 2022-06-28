@@ -1,11 +1,11 @@
 import { BehaviorSubject, filter, map } from 'rxjs';
-import { WrappedApplication } from '@/models';
-import { Engine, engineConfig$ } from '@/globals';
+import { Engine, WrappedApplication } from '@/models';
 import { EngineConfig } from '@/Configs';
 import { Application as PixiEngine } from 'pixi.js';
 import { getApplication } from './ApplicationHelper';
 
 export const app$ = new BehaviorSubject<WrappedApplication<Engine> | undefined>(undefined);
+export const engineConfig$ = new BehaviorSubject<EngineConfig | undefined>(undefined);
 
 engineConfig$
   .pipe(

@@ -1,6 +1,5 @@
 import { Graphics, Sprite, Texture, utils } from 'pixi.js';
-import { Engine } from '@/globals';
-import { TouchHandlerFn, WrappedGraphics, WrappedSprite, WrappedTexture } from '@/models';
+import { Engine, TouchHandlerFn, WrappedGraphics, WrappedSprite, WrappedTexture } from '@/models';
 import { isNotDefined } from '@/utils';
 import { TextureSource } from '@pixi/core';
 

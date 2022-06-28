@@ -1,8 +1,7 @@
 import { Subject } from 'rxjs';
 import { MouseCoords } from '@/input';
-import { Engine } from '@/globals';
 import { enableMouseMove, enableTouchMove, setInteractiveStage } from '@/services/lib/EngineService';
-import { WrappedInteractionEvent } from '@/models/lib/WrappedEngineTypes';
+import { Engine, WrappedInteractionEvent } from '@/models/lib/WrappedEngineTypes';
 
 export const mousePosition$ = new Subject<MouseCoords>();
 

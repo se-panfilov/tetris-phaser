@@ -1,5 +1,5 @@
 import { initMouse, mousePosition$ } from '@/input/lib/Mouse';
-import { Actor, WrappedApplication } from '@/models';
+import { Actor, Engine, WrappedApplication } from '@/models';
 import { Character, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
 import { CharacterWithWeapon, ICharacterWithWeaponMixin } from '@/entities/lib/CharacterWithWeapon';
 import { Key$ } from '@/input';
@@ -11,7 +11,7 @@ import { getAngleToMouse } from '@/utils/lib/Math';
 import { Bullet } from '@/entities/lib/Bullet';
 import { bulletConfig } from '@/entities/lib/Bullet/Config';
 import { GO_BY_AZIMUTH } from '@/entities/lib/Bullet/BulletActions';
-import { Engine, setDelta } from '@/globals';
+import { setDelta } from '@/globals';
 import {
   appendCanvasTo,
   attachBackground,
