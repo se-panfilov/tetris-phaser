@@ -1,5 +1,5 @@
 import { Graphics, InteractionEvent, Sprite } from 'pixi.js';
-import { EngineConfig } from '@/Configs';
+import { EngineConfig } from '@/configs';
 import { Texture } from '@pixi/core';
 import { Application as PixiEngine } from 'pixi.js';
 

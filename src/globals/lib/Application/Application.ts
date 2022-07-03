@@ -1,6 +1,6 @@
 import { BehaviorSubject, filter, map } from 'rxjs';
 import { Engine, WrappedApplication } from '@/models';
-import { EngineConfig } from '@/Configs';
+import { EngineConfig } from '@/configs';
 import { Application as PixiEngine } from 'pixi.js';
 import { getApplication } from './ApplicationHelper';
 

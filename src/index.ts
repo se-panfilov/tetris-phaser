@@ -1,6 +1,6 @@
 import { app$, engineConfig$ } from '@/globals';
 import { startApp } from '@/main';
-import { engineConfig } from '@/Configs';
+import { engineConfig } from '@/configs';
 import { Engine, WrappedApplication } from '@/models';
 import { isDefined } from '@/utils';
 

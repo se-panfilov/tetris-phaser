@@ -1,7 +1,3 @@
-let _delta: number = 0;
+import { BehaviorSubject } from 'rxjs';
 
-export function setDelta(delta: number): void {
-  _delta = delta;
-}
-
-export const getDelta = (): number => _delta;
+export const delta$ = new BehaviorSubject<number>(0);

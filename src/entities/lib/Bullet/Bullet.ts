@@ -5,6 +5,7 @@ import { bulletConfig } from '@/entities/lib/Bullet/Config';
 import { ActorActionState } from '@/input';
 import { GO_BY_AZIMUTH } from '@/entities/lib/Bullet/BulletActions';
 import { adjustCoordsByOrientation } from '@/utils/lib/Math';
+import { nanoid } from 'nanoid';
 
 export function Bullet(config: ActorConfig = bulletConfig): Actor {
   const type: string = 'Bullet';
@@ -43,6 +44,7 @@ export function Bullet(config: ActorConfig = bulletConfig): Actor {
   }
 
   return {
+    id: nanoid(),
     type,
     action$,
     position$,

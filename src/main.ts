@@ -1,6 +1,6 @@
 import { initMouse } from '@/input/lib/Mouse';
-import { Engine, WrappedApplication } from '@/models';
-import { setDelta } from '@/globals';
+import { Actor, Engine, WrappedApplication } from '@/models';
+import { delta$ } from '@/globals';
 import {
   appendCanvasTo,
   attachBackground,
@@ -9,6 +9,7 @@ import {
   subscribeToTicker
 } from '@/services/lib/EngineService';
 import { initBullets, initPlayer } from '@/player';
+import { addPlayerToPool$, playersPool$ } from '@/globals/lib/PlayersPool';
 
 export function startApp({ engine }: WrappedApplication<Engine>): void {
   skipEngineWelcomeScreen();
@@ -17,17 +18,18 @@ export function startApp({ engine }: WrappedApplication<Engine>): void {
   const background = getBackground(0x123456, 0, 0, 800, 600);
   attachBackground(engine, background);
   appendCanvasTo(engine, document.body);
-  subscribeToTicker(engine, update);
+  subscribeToTicker(engine, (value: number) => delta$.next(value));
 
   const player = initPlayer();
   const bullets = initBullets(player);
 
-  function update(delta: number): void {
-    setDelta(delta);
-    player.update$.next(delta);
-    bullets.forEach((bullet) => bullet.update$.next(delta));
-    // playerPromise.then(({ move }) => move(delta));
-  }
+  addPlayerToPool$.next(player);
+
+  delta$.subscribe((value) => {
+    playersPool$.value.forEach((player: Actor) => player.update$.next(value));
+    // player.update$.next(value);
+    bullets.forEach((bullet) => bullet.update$.next(value));
+  });
 
   // TODO (S.Panfilov) this function is unused (perhaps need a reset instead of destroy)
   function destroy(): void {

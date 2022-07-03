@@ -4,6 +4,7 @@ import { ActorSpriteMixin } from '@/entities/lib/ActorMixins/ActorSpriteMixin';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, Subject } from 'rxjs';
 import { ActorActionState } from '@/input';
 import { MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, MOVE_UP } from '@/entities';
+import { nanoid } from 'nanoid';
 
 export function Character(config: ActorConfig = characterConfig): Actor {
   const type: string = 'Character';
@@ -50,6 +51,7 @@ export function Character(config: ActorConfig = characterConfig): Actor {
   }
 
   return {
+    id: nanoid(),
     type,
     action$,
     position$,
